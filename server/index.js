@@ -19,7 +19,8 @@ import User from './models/userModel.js'
 import Product from './models/productModel.js'
 import ProductStat from './models/productStat.js'
 import Transaction from './models/transactionModel.js'
-import { dataUser, dataProduct, dataProductStat, dataTransaction } from './data/index.js'
+import OverallStat from './models/overallStat.js'
+import { dataUser, dataProduct, dataProductStat, dataTransaction, dataOverallStat } from './data/index.js'
 
 /* CONFIGURATION */
 dotenv.config()
@@ -93,11 +94,28 @@ const injectDataTransaction = async () => {
   }
 };
 
+// Function to inject dataOverallStat into the database
+const injectDataOverallStat = async () => {
+  try {
+    const existingOverallStats = await OverallStat.find({});
+
+    if (existingOverallStats.length === 0) {
+      const createdOverallStats = await OverallStat.insertMany(dataOverallStat);
+      console.log('OverallStat data has been injected successfully');
+    } else {
+      console.log('OverallStat data already exists, skipping injection');
+    }
+  } catch (error) {
+    console.error(`Failed to inject overall stat data: ${error}`);
+  }
+};
+
 // Call the functions to inject data
 injectDataUser();
 injectDataProduct();
 injectDataProductStat();
 injectDataTransaction();
+injectDataOverallStat();
 
 app.use(express.json())
 app.use(helmet())
