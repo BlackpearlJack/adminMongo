@@ -12,6 +12,7 @@ const Daily = () => {
   const { data } = useGetSalesQuery();
   const theme = useTheme();
 
+  // calculate the total sales and total units for each day
   const [formattedData] = useMemo(() => {
     if (!data) return [];
 
@@ -53,6 +54,7 @@ const Daily = () => {
       <Box height="75vh">
         <Box display="flex" justifyContent="flex-end">
           <Box>
+            {/* Date picker for start date */}
             <DatePicker
               selected={startDate}
               onChange={(date) => setStartDate(date)}
@@ -62,6 +64,7 @@ const Daily = () => {
             />
           </Box>
           <Box>
+            {/* Date picker for end date */}
             <DatePicker
               selected={endDate}
               onChange={(date) => setEndDate(date)}
@@ -73,6 +76,7 @@ const Daily = () => {
           </Box>
         </Box>
 
+        {/* Display the chart if data is available, otherwise display loading */}
         {data ? (
           <ResponsiveLine
             data={formattedData}
