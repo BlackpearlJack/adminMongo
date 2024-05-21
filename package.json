@@ -5,10 +5,10 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "backend": "nodemon server/index.js",
+    "server": "nodemon server/index.js",
     "client": "cd client && npm start",
-    "dev": "concurrently \"npm run backend\" \"npm run client\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "start" : "node server/index.js"
   },
   "keywords": [],
   "author": "",
