@@ -20,7 +20,15 @@ import Product from './models/productModel.js'
 import ProductStat from './models/productStat.js'
 import Transaction from './models/transactionModel.js'
 import OverallStat from './models/overallStat.js'
-import { dataUser, dataProduct, dataProductStat, dataTransaction, dataOverallStat } from './data/index.js'
+import AffiliateStat from './models/affiliateStat.js'
+import { 
+  dataUser, 
+  dataProduct, 
+  dataProductStat, 
+  dataTransaction, 
+  dataOverallStat,
+  dataAffiliateStat
+ } from './data/index.js'
 
 /* CONFIGURATION */
 dotenv.config()
@@ -109,6 +117,20 @@ const injectDataOverallStat = async () => {
     console.error(`Failed to inject overall stat data: ${error}`);
   }
 };
+const injectDataAffiliateStat = async () => {
+  try {
+    const existingAffiliateStat = await AffiliateStat.find({});
+
+    if (existingAffiliateStat.length === 0) {
+      const createdAffiliateStat = await AffiliateStat.insertMany(dataAffiliateStat);
+      console.log('AffiliateStat data has been injected successfully');
+    } else {
+      console.log('AffiliateStat data already exists, skipping injection');
+    }
+  } catch (error) {
+    console.error(`Failed to inject affiliate stat data: ${error}`);
+  }
+};
 
 // Call the functions to inject data
 injectDataUser();
@@ -116,6 +138,7 @@ injectDataProduct();
 injectDataProductStat();
 injectDataTransaction();
 injectDataOverallStat();
+injectDataAffiliateStat();
 
 app.use(express.json())
 app.use(helmet())
